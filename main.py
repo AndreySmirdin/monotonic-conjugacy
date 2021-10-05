@@ -36,7 +36,12 @@ def main():
     parser.add_argument('--output', required=True, help='output file')
     args = parser.parse_args()
 
-    x, y = read_input_file(args.input)
+    try:
+        x, y = read_input_file(args.input)
+    except Exception as e:
+        print(f"Could not read the input file: {e}")
+        return
+
     if len(x) < 3:
         print("Amount of data is too small, impossible to apply the method.")
         return
@@ -45,7 +50,11 @@ def main():
     y = y[sorted_indices]
 
     delta, sigma, conjugacy = check_conjugacy(y)
-    write_output(args.output, delta, sigma, conjugacy)
+    try:
+        write_output(args.output, delta, sigma, conjugacy)
+    except Exception as e:
+        print(f"Could not save the result: {e}")
+        return
 
 
 if __name__ == '__main__':
